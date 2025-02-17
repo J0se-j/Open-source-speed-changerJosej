@@ -1,0 +1,71 @@
+-- Load Rayfield UI Library
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+-- Create Main Window
+local Window = Rayfield:CreateWindow({
+    Name = "Speed changer",
+    Icon = 86799970568935, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+    LoadingTitle = "Rayfield Interface Suite",
+    LoadingSubtitle = "by Sirius",
+    Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+    DisableRayfieldPrompts = false,
+    DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = nil, -- Create a custom folder for your hub/game
+        FileName = "Big Hub"
+    },
+
+    Discord = {
+        Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+        Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+        RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+    },
+
+    KeySystem = true, -- Set this to true to use our key system
+    KeySettings = {
+        Title = "Speed changer",
+        Subtitle = "Key System",
+        Note = "What is 5 + 5?", -- Use this to tell the user how to get a key
+        FileName = "The Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+        SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+        GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+        Key = {"10"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+    }
+})
+
+-- Create Speed Tab
+local SpeedTab = Window:CreateTab("Speed Change", nil) -- Corrected the typo here
+
+-- Create Speed Section
+local SpeedSection = SpeedTab:CreateSection("Speed Changer") -- Corrected the typo here
+
+-- Get Player and Humanoid
+local Player = game.Players.LocalPlayer
+local Humanoid = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
+
+-- Create Speed Slider
+local SpeedSlider = SpeedTab:CreateSlider({
+    Name = "WalkSpeed",
+    Range = {0, 500}, -- Adjust speed range
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = Humanoid and Humanoid.WalkSpeed or 16,
+    Callback = function(value)
+        if Player.Character and Player.Character:FindFirstChildOfClass("Humanoid") then
+            Player.Character.Humanoid.WalkSpeed = value
+        end
+    end
+})
+
+-- Create Toggle Button
+SpeedTab:CreateToggle({
+    Name = "Loop WalkSpeed and FOV",
+    CurrentValue = false,
+    Flag = "LoopWalkFOV",
+    Callback = function(state)
+        ModifyWalkSpeedFOV(state)
+    end
+})
