@@ -4,7 +4,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 -- Create Main Window
 local Window = Rayfield:CreateWindow({
     Name = "Speed changer",
-    Icon = 86799970568935, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+    Icon = nil, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
     LoadingTitle = "Speed Changer...",
     LoadingSubtitle = "by Jose",
     Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
@@ -46,6 +46,12 @@ local SpeedSection = SpeedTab:CreateSection("Speed Changer") -- Corrected the ty
 local Player = game.Players.LocalPlayer
 local Humanoid = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
 
+local Button = SpeedTab:CreateButton({
+   Name = "Close Script",
+   Callback = function(Rayfield:Destroy())
+   -- The function that takes place when the button is pressed
+   end,
+})
 -- Create Speed Slider
 local SpeedSlider = SpeedTab:CreateSlider({
     Name = "WalkSpeed",
@@ -68,4 +74,11 @@ SpeedTab:CreateToggle({
     Callback = function(state)
         ModifyWalkSpeedFOV(state)
     end
+})
+
+local Button = SpeedTab:CreateButton({
+   Name = "Open YARHM (sometimes might kick you out)",
+   Callback = function(loadstring(game:httpget("https://yarhm.goteamst.com/scr", false))())
+   -- The function that takes place when the button is pressed
+   end,
 })
